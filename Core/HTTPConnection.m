@@ -867,7 +867,8 @@ static NSMutableArray *recentNonces;
 				// Note: The range is inclusive. So 0-1 has a length of 2 bytes.
 				
 				if(r1 > r2) return NO;
-				if(r2 >= contentLength) return NO;
+				if(r2 >= contentLength)
+                    r2 = contentLength - 1;
 				
 				[ranges addObject:[NSValue valueWithDDRange:DDMakeRange(r1, r2 - r1 + 1)]];
 			}
@@ -2536,7 +2537,7 @@ static NSMutableArray *recentNonces;
 		}
 		else
 		{
-			if (ranges == nil)
+			if (ranges.count == 0)
 			{
 				[self continueSendingStandardResponseBody];
 			}
