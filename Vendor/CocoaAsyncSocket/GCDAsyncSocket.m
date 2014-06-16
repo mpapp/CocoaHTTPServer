@@ -5494,7 +5494,7 @@ enum GCDAsyncSocketConfig
 				BOOL keepLooping = YES;
 				while (keepLooping)
 				{
-					size_t sslBytesToWrite = MIN(bytesRemaining, 32768);
+					size_t sslBytesToWrite = MIN((int)bytesRemaining, 32768);
 					size_t sslBytesWritten = 0;
 					
 					result = SSLWrite(sslContext, buffer, sslBytesToWrite, &sslBytesWritten);
