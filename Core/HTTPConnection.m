@@ -1185,10 +1185,13 @@ static NSMutableArray *recentNonces;
 	
 	if (!isChunked && rangeHeader)
 	{
-		if ([self parseRangeRequest:rangeHeader withContentLength:contentLength])
-		{
-			isRangeRequest = YES;
-		}
+        // If the response has a non-success status, don't treat this as a range request
+        if (![httpResponse respondsToSelector:@selector(status)] || httpResponse.status < 300) {
+            if ([self parseRangeRequest:rangeHeader withContentLength:contentLength])
+            {
+                isRangeRequest = YES;
+            }
+        }
 	}
 	
 	HTTPMessage *response;
