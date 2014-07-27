@@ -133,7 +133,6 @@ NSString *const GCDAsyncSocketThreadName = @"GCDAsyncSocket-CFStream";
 
 #if SECURE_TRANSPORT_MAYBE_AVAILABLE
 NSString *const GCDAsyncSocketSSLCipherSuites = @"GCDAsyncSocketSSLCipherSuites";
-NSString *const GCDAsyncSocketSSLClientSideAuthenticate = @"GCDAsyncSocketSSLClientSideAuthenticate";
 #if TARGET_OS_IPHONE
 NSString *const GCDAsyncSocketSSLProtocolVersionMin = @"GCDAsyncSocketSSLProtocolVersionMin";
 NSString *const GCDAsyncSocketSSLProtocolVersionMax = @"GCDAsyncSocketSSLProtocolVersionMax";
@@ -6169,8 +6168,7 @@ static OSStatus SSLWriteFunction(SSLConnectionRef connection, const void *data, 
 	// 7. kCFStreamSSLLevel (GCDAsyncSocketSSLProtocolVersionMin / GCDAsyncSocketSSLProtocolVersionMax)
 	// 8. GCDAsyncSocketSSLCipherSuites
 	// 9. GCDAsyncSocketSSLDiffieHellmanParameters (Mac)
-    // 10. GCDAsyncSocketSSLClientSideAuthenticate
-
+	
 	id value;
 	
 	// 1. kCFStreamSSLPeerName
@@ -6455,19 +6453,6 @@ static OSStatus SSLWriteFunction(SSLConnectionRef connection, const void *data, 
 		}
 	}
 	#endif
-
-    // 10. GCDAsyncSocketSSLClientSideAuthenticate
-
-	value = [tlsSettings objectForKey:GCDAsyncSocketSSLClientSideAuthenticate];
-	if (value)
-	{
-		status = SSLSetClientSideAuthenticate(sslContext, [value intValue]);
-		if (status != noErr)
-		{
-			[self closeWithError:[self otherError:@"Error in SSLSetClientSideAuthenticate"]];
-			return;
-		}
-    }
 	
 	// Setup the sslPreBuffer
 	// 

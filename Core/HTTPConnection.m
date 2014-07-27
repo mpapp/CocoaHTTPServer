@@ -354,63 +354,6 @@ static NSMutableArray *recentNonces;
 	return nil;
 }
 
-/**
- * Returns the client SSL certificate authentication mode.
- * By default, no client-side authentication is done (kNeverAuthenticate).
- * To enable auth, override to return kAlwaysAuthenticate or kTryAuthenticate.
-**/
-- (SSLAuthenticate)sslClientSideAuthentication
-{
-	HTTPLogTrace();
-
-	// Override me to enable SSL client authentication
-
-    return kNeverAuthenticate;
-}
-
-/**
-  * Called when the socket completes SSL negotiation.
-  */
-- (void)socketDidSecure:(GCDAsyncSocket *)sock
-{
-	HTTPLogTrace();
-
-    if (self.sslClientSideAuthentication == kNeverAuthenticate)
-        return;
-
-    __block NSArray* certs = nil;
-    [sock performBlock:^{
-        CFArrayRef cfCerts;
-        OSStatus err = SSLCopyPeerCertificates(sock.sslContext, &cfCerts);
-        if (err) {
-            HTTPLogError(@"Couldn't get client cert: OSStatus %d", (int)err);
-        } else if (cfCerts) {
-            certs = CFBridgingRelease(cfCerts);
-        }
-    }];
-
-    if (certs) {
-        if ([self authorizeClientCertificates: certs]) {
-            HTTPLogInfo(@"Got client cert: %@", certs);
-        } else {
-            HTTPLogError(@"Invalid client cert: %@", certs);
-            [asyncSocket disconnect];
-        }
-    }
-}
-
-/*
- * Called when SSL negotiation completes, if the client presented a certificate.
- * This is _before_ any HTTP request is actually sent over the socket!
- * This method should return YES if the certificate is acceptable, otherwise NO.
- * If it returns NO, the socket is immediately disconnected.
- */
-- (BOOL) authorizeClientCertificates: (NSArray*)clientCertificates
-{
-	HTTPLogTrace();
-    return YES;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Password Protection
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -705,16 +648,6 @@ static NSMutableArray *recentNonces;
 			// Configure this connection to use the highest possible SSL level
 			[settings setObject:(NSString *)kCFStreamSocketSecurityLevelNegotiatedSSL
 						 forKey:(NSString *)kCFStreamSSLLevel];
-
-            // Configure optional client cert authentication:
-            SSLAuthenticate clientAuth = [self sslClientSideAuthentication];
-            if (clientAuth != kNeverAuthenticate)
-            {
-                [settings setObject:[NSNumber numberWithInteger:clientAuth]
-                             forKey:GCDAsyncSocketSSLClientSideAuthenticate];
-                [settings setObject: [NSNumber numberWithBool: NO] //FIX: Make configurable
-                             forKey: (NSString *)kCFStreamSSLValidatesCertificateChain];
-            }
 			
 			[asyncSocket startTLS:settings];
 		}
@@ -986,13 +919,14 @@ static NSMutableArray *recentNonces;
 {
 	HTTPLogTrace();
 	
-	if (HTTP_LOG_VERBOSE)
+#if HTTP_LOG_VERBOSE
 	{
 		NSData *tempData = [request messageData];
 		
 		NSString *tempStr = [[NSString alloc] initWithData:tempData encoding:NSUTF8StringEncoding];
 		HTTPLogVerbose(@"%@[%p]: Received HTTP request:\n%@", THIS_FILE, self, tempStr);
 	}
+#endif
 	
 	// Check the HTTP version
 	// We only support version 1.0 and 1.1
@@ -1251,10 +1185,13 @@ static NSMutableArray *recentNonces;
 	
 	if (!isChunked && rangeHeader)
 	{
-		if ([self parseRangeRequest:rangeHeader withContentLength:contentLength])
-		{
-			isRangeRequest = YES;
-		}
+        // If the response has a non-success status, don't treat this as a range request
+        if (![httpResponse respondsToSelector:@selector(status)] || httpResponse.status < 300) {
+            if ([self parseRangeRequest:rangeHeader withContentLength:contentLength])
+            {
+                isRangeRequest = YES;
+            }
+        }
 	}
 	
 	HTTPMessage *response;
@@ -2564,21 +2501,11 @@ static NSMutableArray *recentNonces;
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err;
 {
 	HTTPLogTrace();
-
-    if (err)
-        [self handleSocketError: err];
 	
 	asyncSocket = nil;
 	
 	[self die];
 }
-
-- (void)handleSocketError:(NSError *)error
-{
-    // Override for custom handling of socket errors
-	HTTPLogInfo(@"HTTP Server: Socket error: %@", error.localizedDescription);
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark HTTPResponse Notifications

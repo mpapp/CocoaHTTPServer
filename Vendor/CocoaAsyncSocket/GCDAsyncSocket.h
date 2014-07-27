@@ -67,7 +67,6 @@ extern NSString *const GCDAsyncSocketThreadName;
 
 #if SECURE_TRANSPORT_MAYBE_AVAILABLE
 extern NSString *const GCDAsyncSocketSSLCipherSuites;
-extern NSString *const GCDAsyncSocketSSLClientSideAuthenticate; // value type is SSLAuthenticate
 #if TARGET_OS_IPHONE
 extern NSString *const GCDAsyncSocketSSLProtocolVersionMin;
 extern NSString *const GCDAsyncSocketSSLProtocolVersionMax;
@@ -765,13 +764,11 @@ typedef enum GCDAsyncSocketError GCDAsyncSocketError;
  * - GCDAsyncSocketSSLCipherSuites
  * - GCDAsyncSocketSSLProtocolVersionMin
  * - GCDAsyncSocketSSLProtocolVersionMax
- * - GCDAsyncSocketSSLClientSideAuthenticate
  * 
  * If SecureTransport is available on Mac OS X:
  * 
  * - GCDAsyncSocketSSLCipherSuites
- * - GCDAsyncSocketSSLClientSideAuthenticate
- * - GCDAsyncSocketSSLDiffieHellmanParameters
+ * - GCDAsyncSocketSSLDiffieHellmanParameters;
  * 
  * 
  * Please refer to Apple's documentation for associated values, as well as other possible keys.

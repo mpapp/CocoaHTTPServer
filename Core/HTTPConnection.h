@@ -76,8 +76,6 @@
 
 - (BOOL)isSecureServer;
 - (NSArray *)sslIdentityAndCertificates;
-- (SSLAuthenticate)sslClientSideAuthentication;
-- (BOOL) authorizeClientCertificates: (NSArray*)clientCertificates;
 
 - (BOOL)isPasswordProtected:(NSString *)path;
 - (BOOL)useDigestAccessAuthentication;
@@ -104,7 +102,6 @@
 - (void)handleResourceNotFound;
 - (void)handleInvalidRequest:(NSData *)data;
 - (void)handleUnknownMethod:(NSString *)method;
-- (void)handleSocketError:(NSError *)error;
 
 - (NSData *)preprocessResponse:(HTTPMessage *)response;
 - (NSData *)preprocessErrorResponse:(HTTPMessage *)response;
