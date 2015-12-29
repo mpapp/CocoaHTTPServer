@@ -1,3 +1,0 @@
-[submodule "Vendor/CocoaLumberjack"]
-	path = Carthage/Checkouts/CocoaLumberjack
-	url = git@github.com:mpapp/CocoaLumberjack.git
