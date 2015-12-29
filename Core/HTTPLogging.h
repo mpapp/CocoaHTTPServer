@@ -46,7 +46,9 @@
  * This means you can pass it multiple variables just like NSLog.
 **/
 
-#import <Lumberjack/DDLog.h>
+#define DD_LEGACY_MACROS 1
+#import <CocoaLumberjack/DDLegacyMacros.h>
+#import <CocoaLumberjack/DDLog.h>
 
 // Define logging context for every log message coming from the HTTP server.
 // The logging context can be extracted from the DDLogMessage from within the logging framework,
