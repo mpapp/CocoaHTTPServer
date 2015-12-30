@@ -1,1 +1,1 @@
-github "CocoaLumberjack/CocoaLumberjack" ~> 2.2
+github "mpapp/CocoaLumberjack" "master"
