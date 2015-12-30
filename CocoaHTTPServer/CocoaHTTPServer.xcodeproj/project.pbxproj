@@ -34,12 +34,12 @@
 		5FB9EC121C331C1D00A19578 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB9EC101C331C1D00A19578 /* WebSocket.m */; };
 		5FB9EC1D1C331C2A00A19578 /* HTTPAuthenticationRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB9EC131C331C2A00A19578 /* HTTPAuthenticationRequest.h */; };
 		5FB9EC1E1C331C2A00A19578 /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB9EC141C331C2A00A19578 /* HTTPAuthenticationRequest.m */; };
-		5FB9EC1F1C331C2A00A19578 /* HTTPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB9EC151C331C2A00A19578 /* HTTPConnection.h */; };
+		5FB9EC1F1C331C2A00A19578 /* HTTPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB9EC151C331C2A00A19578 /* HTTPConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FB9EC201C331C2A00A19578 /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB9EC161C331C2A00A19578 /* HTTPConnection.m */; };
 		5FB9EC211C331C2A00A19578 /* HTTPLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB9EC171C331C2A00A19578 /* HTTPLogging.h */; };
-		5FB9EC221C331C2A00A19578 /* HTTPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB9EC181C331C2A00A19578 /* HTTPMessage.h */; };
+		5FB9EC221C331C2A00A19578 /* HTTPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB9EC181C331C2A00A19578 /* HTTPMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FB9EC231C331C2A00A19578 /* HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB9EC191C331C2A00A19578 /* HTTPMessage.m */; };
-		5FB9EC241C331C2A00A19578 /* HTTPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB9EC1A1C331C2A00A19578 /* HTTPResponse.h */; };
+		5FB9EC241C331C2A00A19578 /* HTTPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB9EC1A1C331C2A00A19578 /* HTTPResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FB9EC251C331C2A00A19578 /* HTTPServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB9EC1B1C331C2A00A19578 /* HTTPServer.h */; };
 		5FB9EC261C331C2A00A19578 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB9EC1C1C331C2A00A19578 /* HTTPServer.m */; };
 		5FB9EC2E1C331D0700A19578 /* About.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5FB9EC2B1C331D0700A19578 /* About.txt */; };
@@ -476,6 +476,7 @@
 				5FB9EBCB1C331BE000A19578 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
