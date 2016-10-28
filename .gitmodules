@@ -1,0 +1,3 @@
+[submodule "Carthage/Checkouts/CocoaLumberjack"]
+	path = Carthage/Checkouts/CocoaLumberjack
+	url = ssh://git@github.com/mpapp/CocoaLumberjack.git
