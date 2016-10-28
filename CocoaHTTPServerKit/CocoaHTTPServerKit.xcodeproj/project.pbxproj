@@ -20,7 +20,7 @@
 		5F6B84961DC3521700DB5177 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B848C1DC3521700DB5177 /* HTTPServer.m */; };
 		5F6B849D1DC3522C00DB5177 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B849B1DC3522C00DB5177 /* WebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F6B849E1DC3522C00DB5177 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B849C1DC3522C00DB5177 /* WebSocket.m */; };
-		5F6B84A21DC352D900DB5177 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84A01DC352D900DB5177 /* GCDAsyncSocket.h */; };
+		5F6B84A21DC352D900DB5177 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84A01DC352D900DB5177 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F6B84A31DC352D900DB5177 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84A11DC352D900DB5177 /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5F6B84AF1DC352FB00DB5177 /* HTTPAsyncFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84A51DC352F000DB5177 /* HTTPAsyncFileResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F6B84B01DC352FB00DB5177 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84A61DC352F000DB5177 /* HTTPAsyncFileResponse.m */; };
