@@ -47,7 +47,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
 	if([method isEqualToString:@"POST"] && [path isEqualToString:@"/upload.html"]) {
         // here we need to make sure, boundary is set in header
         NSString* contentType = [request headerField:@"Content-Type"];
-        int paramsSeparator = [contentType rangeOfString:@";"].location;
+        NSUInteger paramsSeparator = [contentType rangeOfString:@";"].location;
         if( NSNotFound == paramsSeparator ) {
             return NO;
         }
@@ -150,13 +150,23 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
 	}    
 	NSString* uploadDirPath = [[config documentRoot] stringByAppendingPathComponent:@"upload"];
 
+	BOOL isDir = YES;
+	if (![[NSFileManager defaultManager]fileExistsAtPath:uploadDirPath isDirectory:&isDir ]) {
+		[[NSFileManager defaultManager]createDirectoryAtPath:uploadDirPath withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	
     NSString* filePath = [uploadDirPath stringByAppendingPathComponent: filename];
     if( [[NSFileManager defaultManager] fileExistsAtPath:filePath] ) {
         storeFile = nil;
     }
     else {
 		HTTPLogVerbose(@"Saving file to %@", filePath);
-		[[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];	
+		if(![[NSFileManager defaultManager] createDirectoryAtPath:uploadDirPath withIntermediateDirectories:true attributes:nil error:nil]) {
+			HTTPLogError(@"Could not create directory at path: %@", filePath);
+		}
+		if(![[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil]) {
+			HTTPLogError(@"Could not create file at path: %@", filePath);
+		}
 		storeFile = [NSFileHandle fileHandleForWritingAtPath:filePath];
 		[uploadedFiles addObject: [NSString stringWithFormat:@"/upload/%@", filename]];
     }

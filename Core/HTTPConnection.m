@@ -16,31 +16,6 @@
 #warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
 
-// Does ARC support support GCD objects?
-// It does if the minimum deployment target is iOS 6+ or Mac OS X 8+
-
-#if TARGET_OS_IPHONE
-
-  // Compiling for iOS
-
-  #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000 // iOS 6.0 or later
-    #define NEEDS_DISPATCH_RETAIN_RELEASE 0
-  #else                                         // iOS 5.X or earlier
-    #define NEEDS_DISPATCH_RETAIN_RELEASE 1
-  #endif
-
-#else
-
-  // Compiling for Mac OS X
-
-  #if MAC_OS_X_VERSION_MIN_REQUIRED >= 1080     // Mac OS X 10.8 or later
-    #define NEEDS_DISPATCH_RETAIN_RELEASE 0
-  #else
-    #define NEEDS_DISPATCH_RETAIN_RELEASE 1     // Mac OS X 10.7 or earlier
-  #endif
-
-#endif
-
 // Log levels: off, error, warn, info, verbose
 // Other flags: trace
 static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
@@ -48,16 +23,16 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 // Define chunk size used to read in data for responses
 // This is how much data will be read from disk into RAM at a time
 #if TARGET_OS_IPHONE
-  #define READ_CHUNKSIZE  (1024 * 128)
+  #define READ_CHUNKSIZE  (1024 * 256)
 #else
   #define READ_CHUNKSIZE  (1024 * 512)
 #endif
 
 // Define chunk size used to read in POST upload data
 #if TARGET_OS_IPHONE
-  #define POST_CHUNKSIZE  (1024 * 32)
+  #define POST_CHUNKSIZE  (1024 * 256)
 #else
-  #define POST_CHUNKSIZE  (1024 * 128)
+  #define POST_CHUNKSIZE  (1024 * 512)
 #endif
 
 // Define the various timeouts (in seconds) for various parts of the HTTP process
@@ -207,7 +182,7 @@ static NSMutableArray *recentNonces;
 		if (aConfig.queue)
 		{
 			connectionQueue = aConfig.queue;
-			#if NEEDS_DISPATCH_RETAIN_RELEASE
+			#if !OS_OBJECT_USE_OBJC
 			dispatch_retain(connectionQueue);
 			#endif
 		}
@@ -245,7 +220,7 @@ static NSMutableArray *recentNonces;
 {
 	HTTPLogTrace();
 	
-	#if NEEDS_DISPATCH_RETAIN_RELEASE
+	#if !OS_OBJECT_USE_OBJC
 	dispatch_release(connectionQueue);
 	#endif
 	
@@ -867,7 +842,8 @@ static NSMutableArray *recentNonces;
 				// Note: The range is inclusive. So 0-1 has a length of 2 bytes.
 				
 				if(r1 > r2) return NO;
-				if(r2 >= contentLength) return NO;
+				if(r2 >= contentLength)
+                    r2 = contentLength - 1;
 				
 				[ranges addObject:[NSValue valueWithDDRange:DDMakeRange(r1, r2 - r1 + 1)]];
 			}
@@ -918,13 +894,14 @@ static NSMutableArray *recentNonces;
 {
 	HTTPLogTrace();
 	
-	if (HTTP_LOG_VERBOSE)
+#if HTTP_LOG_VERBOSE
 	{
 		NSData *tempData = [request messageData];
 		
 		NSString *tempStr = [[NSString alloc] initWithData:tempData encoding:NSUTF8StringEncoding];
 		HTTPLogVerbose(@"%@[%p]: Received HTTP request:\n%@", THIS_FILE, self, tempStr);
 	}
+#endif
 	
 	// Check the HTTP version
 	// We only support version 1.0 and 1.1
@@ -1183,10 +1160,13 @@ static NSMutableArray *recentNonces;
 	
 	if (!isChunked && rangeHeader)
 	{
-		if ([self parseRangeRequest:rangeHeader withContentLength:contentLength])
-		{
-			isRangeRequest = YES;
-		}
+        // If the response has a non-success status, don't treat this as a range request
+        if (![httpResponse respondsToSelector:@selector(status)] || httpResponse.status < 300) {
+            if ([self parseRangeRequest:rangeHeader withContentLength:contentLength])
+            {
+                isRangeRequest = YES;
+            }
+        }
 	}
 	
 	HTTPMessage *response;
@@ -1977,7 +1957,7 @@ static NSMutableArray *recentNonces;
  * This method is called immediately prior to sending the response headers (for an error).
  * This method adds standard header fields, and then converts the response to an NSData object.
 **/
-- (NSData *)preprocessErrorResponse:(HTTPMessage *)response;
+- (NSData *)preprocessErrorResponse:(HTTPMessage *)response
 {
 	HTTPLogTrace();
 	
@@ -2388,7 +2368,9 @@ static NSMutableArray *recentNonces;
 	if (tag == HTTP_PARTIAL_RESPONSE_BODY)
 	{
 		// Update the amount of data we have in asyncSocket's write queue
-		[responseDataSizes removeObjectAtIndex:0];
+        if ([responseDataSizes count] > 0) {
+            [responseDataSizes removeObjectAtIndex:0];
+        }
 		
 		// We only wrote a part of the response - there may be more
 		[self continueSendingStandardResponseBody];
@@ -2397,8 +2379,9 @@ static NSMutableArray *recentNonces;
 	{
 		// Update the amount of data we have in asyncSocket's write queue.
 		// This will allow asynchronous responses to continue sending more data.
-		[responseDataSizes removeObjectAtIndex:0];
-		
+        if ([responseDataSizes count] > 0) {
+            [responseDataSizes removeObjectAtIndex:0];
+        }
 		// Don't continue sending the response yet.
 		// The chunked footer that was sent after the body will tell us if we have more data to send.
 	}
@@ -2410,16 +2393,18 @@ static NSMutableArray *recentNonces;
 	else if (tag == HTTP_PARTIAL_RANGE_RESPONSE_BODY)
 	{
 		// Update the amount of data we have in asyncSocket's write queue
-		[responseDataSizes removeObjectAtIndex:0];
-		
+        if ([responseDataSizes count] > 0) {
+            [responseDataSizes removeObjectAtIndex:0];
+        }
 		// We only wrote a part of the range - there may be more
 		[self continueSendingSingleRangeResponseBody];
 	}
 	else if (tag == HTTP_PARTIAL_RANGES_RESPONSE_BODY)
 	{
 		// Update the amount of data we have in asyncSocket's write queue
-		[responseDataSizes removeObjectAtIndex:0];
-		
+        if ([responseDataSizes count] > 0) {
+            [responseDataSizes removeObjectAtIndex:0];
+        }
 		// We only wrote part of the range - there may be more, or there may be more ranges
 		[self continueSendingMultiRangeResponseBody];
 	}
@@ -2493,7 +2478,7 @@ static NSMutableArray *recentNonces;
 /**
  * Sent after the socket has been disconnected.
 **/
-- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err;
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
 	HTTPLogTrace();
 	
@@ -2536,7 +2521,7 @@ static NSMutableArray *recentNonces;
 		}
 		else
 		{
-			if (ranges == nil)
+			if (ranges.count == 0)
 			{
 				[self continueSendingStandardResponseBody];
 			}
@@ -2710,7 +2695,7 @@ static NSMutableArray *recentNonces;
 		if (q)
 		{
 			queue = q;
-			#if NEEDS_DISPATCH_RETAIN_RELEASE
+			#if !OS_OBJECT_USE_OBJC
 			dispatch_retain(queue);
 			#endif
 		}
@@ -2720,7 +2705,7 @@ static NSMutableArray *recentNonces;
 
 - (void)dealloc
 {
-	#if NEEDS_DISPATCH_RETAIN_RELEASE
+	#if !OS_OBJECT_USE_OBJC
 	if (queue) dispatch_release(queue);
 	#endif
 }

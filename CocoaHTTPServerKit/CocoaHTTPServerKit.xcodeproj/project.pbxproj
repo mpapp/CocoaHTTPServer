@@ -18,10 +18,8 @@
 		5F6B84941DC3521700DB5177 /* HTTPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B848A1DC3521700DB5177 /* HTTPResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F6B84951DC3521700DB5177 /* HTTPServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B848B1DC3521700DB5177 /* HTTPServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F6B84961DC3521700DB5177 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B848C1DC3521700DB5177 /* HTTPServer.m */; };
-		5F6B849D1DC3522C00DB5177 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B849B1DC3522C00DB5177 /* WebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5F6B849E1DC3522C00DB5177 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B849C1DC3522C00DB5177 /* WebSocket.m */; };
 		5F6B84A21DC352D900DB5177 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84A01DC352D900DB5177 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5F6B84A31DC352D900DB5177 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84A11DC352D900DB5177 /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5F6B84A31DC352D900DB5177 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84A11DC352D900DB5177 /* GCDAsyncSocket.m */; };
 		5F6B84AF1DC352FB00DB5177 /* HTTPAsyncFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84A51DC352F000DB5177 /* HTTPAsyncFileResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F6B84B01DC352FB00DB5177 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84A61DC352F000DB5177 /* HTTPAsyncFileResponse.m */; };
 		5F6B84B11DC352FB00DB5177 /* HTTPDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84A71DC352F000DB5177 /* HTTPDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -45,6 +43,8 @@
 		5F6B84D11DC3533600DB5177 /* DDRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84CB1DC3533600DB5177 /* DDRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F6B84D21DC3533600DB5177 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84CC1DC3533600DB5177 /* DDRange.m */; };
 		5F6B84D51DC3562D00DB5177 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6B84D41DC3562D00DB5177 /* CocoaLumberjack.framework */; };
+		5F9DBF1F1DC3B23A003B942A /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B849B1DC3522C00DB5177 /* WebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F9DBF201DC3B23E003B942A /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B849C1DC3522C00DB5177 /* WebSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -214,7 +214,6 @@
 				5F6B84D11DC3533600DB5177 /* DDRange.h in Headers */,
 				5F6B84AF1DC352FB00DB5177 /* HTTPAsyncFileResponse.h in Headers */,
 				5F6B84C41DC3531D00DB5177 /* MultipartMessageHeaderField.h in Headers */,
-				5F6B849D1DC3522C00DB5177 /* WebSocket.h in Headers */,
 				5F6B84CF1DC3533600DB5177 /* DDNumber.h in Headers */,
 				5F6B848F1DC3521700DB5177 /* HTTPConnection.h in Headers */,
 				5F6B84A21DC352D900DB5177 /* GCDAsyncSocket.h in Headers */,
@@ -228,6 +227,7 @@
 				5F6B84911DC3521700DB5177 /* HTTPLogging.h in Headers */,
 				5F6B84B71DC352FB00DB5177 /* HTTPRedirectResponse.h in Headers */,
 				5F6B84CD1DC3533600DB5177 /* DDData.h in Headers */,
+				5F9DBF1F1DC3B23A003B942A /* WebSocket.h in Headers */,
 				5F6B847B1DC351F800DB5177 /* CocoaHTTPServerKit.h in Headers */,
 				5F6B84C21DC3531D00DB5177 /* MultipartMessageHeader.h in Headers */,
 				5F6B84B31DC352FB00DB5177 /* HTTPDynamicFileResponse.h in Headers */,
@@ -306,12 +306,12 @@
 				5F6B84A31DC352D900DB5177 /* GCDAsyncSocket.m in Sources */,
 				5F6B848E1DC3521700DB5177 /* HTTPAuthenticationRequest.m in Sources */,
 				5F6B84D21DC3533600DB5177 /* DDRange.m in Sources */,
-				5F6B849E1DC3522C00DB5177 /* WebSocket.m in Sources */,
 				5F6B84CE1DC3533600DB5177 /* DDData.m in Sources */,
 				5F6B84B01DC352FB00DB5177 /* HTTPAsyncFileResponse.m in Sources */,
 				5F6B84C31DC3531D00DB5177 /* MultipartMessageHeader.m in Sources */,
 				5F6B84D01DC3533600DB5177 /* DDNumber.m in Sources */,
 				5F6B84931DC3521700DB5177 /* HTTPMessage.m in Sources */,
+				5F9DBF201DC3B23E003B942A /* WebSocket.m in Sources */,
 				5F6B84961DC3521700DB5177 /* HTTPServer.m in Sources */,
 				5F6B84B21DC352FB00DB5177 /* HTTPDataResponse.m in Sources */,
 				5F6B84C51DC3531D00DB5177 /* MultipartMessageHeaderField.m in Sources */,

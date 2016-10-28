@@ -36,6 +36,13 @@
 @optional
 
 /**
+ *  The file path for a static resource.
+ */
+- (NSString *)filePath;
+
+@optional
+
+/**
  * If you need time to calculate any part of the HTTP response headers (status code or header fields),
  * this method allows you to delay sending the headers so that you may asynchronously execute the calculations.
  * Simply implement this method and return YES until you have everything you need concerning the headers.
