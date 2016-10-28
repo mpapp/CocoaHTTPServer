@@ -21,7 +21,7 @@
 		5F6B849D1DC3522C00DB5177 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B849B1DC3522C00DB5177 /* WebSocket.h */; };
 		5F6B849E1DC3522C00DB5177 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B849C1DC3522C00DB5177 /* WebSocket.m */; };
 		5F6B84A21DC352D900DB5177 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84A01DC352D900DB5177 /* GCDAsyncSocket.h */; };
-		5F6B84A31DC352D900DB5177 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84A11DC352D900DB5177 /* GCDAsyncSocket.m */; };
+		5F6B84A31DC352D900DB5177 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84A11DC352D900DB5177 /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5F6B84AF1DC352FB00DB5177 /* HTTPAsyncFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84A51DC352F000DB5177 /* HTTPAsyncFileResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F6B84B01DC352FB00DB5177 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84A61DC352F000DB5177 /* HTTPAsyncFileResponse.m */; };
 		5F6B84B11DC352FB00DB5177 /* HTTPDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84A71DC352F000DB5177 /* HTTPDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -44,6 +44,7 @@
 		5F6B84D01DC3533600DB5177 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84CA1DC3533600DB5177 /* DDNumber.m */; };
 		5F6B84D11DC3533600DB5177 /* DDRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B84CB1DC3533600DB5177 /* DDRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F6B84D21DC3533600DB5177 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B84CC1DC3533600DB5177 /* DDRange.m */; };
+		5F6B84D51DC3562D00DB5177 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6B84D41DC3562D00DB5177 /* CocoaLumberjack.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		5F6B84CA1DC3533600DB5177 /* DDNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDNumber.m; path = ../Core/Categories/DDNumber.m; sourceTree = "<group>"; };
 		5F6B84CB1DC3533600DB5177 /* DDRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDRange.h; path = ../Core/Categories/DDRange.h; sourceTree = "<group>"; };
 		5F6B84CC1DC3533600DB5177 /* DDRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDRange.m; path = ../Core/Categories/DDRange.m; sourceTree = "<group>"; };
+		5F6B84D41DC3562D00DB5177 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = ../Carthage/Build/Mac/CocoaLumberjack.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F6B84D51DC3562D00DB5177 /* CocoaLumberjack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +199,7 @@
 		5F6B84D31DC3538100DB5177 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F6B84D41DC3562D00DB5177 /* CocoaLumberjack.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -349,6 +353,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$SRCROOT/Carthage/Build/Mac\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -401,6 +406,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$SRCROOT/Carthage/Build/Mac\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -428,10 +434,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "\"$SRCROOT/../Carthage/Build/Mac\"";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = CocoaHTTPServerKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.manuscripts.CocoaHTTPServerKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -449,10 +457,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "\"$SRCROOT/../Carthage/Build/Mac\"";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = CocoaHTTPServerKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.manuscripts.CocoaHTTPServerKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -479,6 +489,7 @@
 				5F6B84801DC351F800DB5177 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
